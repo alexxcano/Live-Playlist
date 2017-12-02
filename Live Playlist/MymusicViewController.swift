@@ -22,20 +22,29 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
+        cell.accessoryType = .detailButton
         var songN = tmpmusicLibrary[indexPath.row].songName
         
         cell.textLabel?.text = songN
         return cell
     }
     
-   
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let inde = tableView.indexPathForSelectedRow
-        let currentCell = tableView.cellForRow(at: inde!)
-        print(currentCell?.textLabel?.text)
+   // this is the function that happens when you press the button circle thing next to the song
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        //this prints out the uri of each song you click
+        //so if you wanna test a song uri just do
+        //tmpmusicLibrary[indexPath.row].songUri or tmpmusicLibrary[0].songUri with whatever youre using
+        //deuces
+        print(tmpmusicLibrary[indexPath.row].songUri)
         
     }
+    
+    /*func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        print(tmpmusicLibrary[indexPath.row].songName)
+        
+    }*/
     
     var tmpmusicLibrary = [Library]()
     

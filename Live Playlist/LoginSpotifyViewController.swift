@@ -20,7 +20,12 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
     var player: SPTAudioStreamingController?
     var loginUrl: URL?
     
-   
+    var musicLibraryC = [Library]()
+    
+    var libarr = [String]()
+    var libarry = [String]()
+    
+    var libraryCount = 0
     
     var userDefaults = UserDefaults.standard
     
@@ -43,14 +48,29 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
        
         //will call updateafterlogin and call otherfunctions to login to spotify
         
+      
+        
         NotificationCenter.default.addObserver(self, selector: #selector(LoginSpotifyViewController.perforSegue), name: NSNotification.Name(rawValue: "loginSuccessfull"), object: nil)
+        
+        if let sessionObj:AnyObject = userDefaults.object(forKey: "SpotifySession") as AnyObject? {
+            
+            let sessionDataObj = sessionObj as! Data
+            let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
+            
+            self.session = firstTimeSession
+            initializePlayer(authSession: session)
+        }
+        else
+        {
+            print("error")
+        }
         
 
         // Do any additional setup after loading the view.
     }
     
     //function to initialize player
-    /*unc initializePlayer(authSession:SPTSession){
+    func initializePlayer(authSession:SPTSession){
         
         if self.player == nil {
             self.player = SPTAudioStreamingController.sharedInstance()
@@ -59,7 +79,7 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
             try! player!.start(withClientId: auth.clientID)
             self.player!.login(withAccessToken: authSession.accessToken)
         }
-    }*/
+    }
     
     //after it logins prepare player
     @objc func updateAfterFirstLogin () {
@@ -71,7 +91,7 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
             let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
             
             self.session = firstTimeSession
-            //initializePlayer(authSession: session)
+            initializePlayer(authSession: session)
             
         }
     }
@@ -90,25 +110,69 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
     
     @objc func perforSegue()
     {
+        
+        if musicLibraryC.isEmpty{
+            print("library is empty")
+        }
+        else
+        {
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(musicLibraryC),forKey:"MusicLibrary")
+            
+            
+        }
+        
+        
         self.performSegue(withIdentifier: "loggedInSpotifySegue", sender: nil)
     }
     
     
-    /*func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+    func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
         // after a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
         print("logged in")
-        self.player?.playSpotifyURI("spotify:track:0Y2i84QWPFiFHQfEQDgHya", startingWith: 0, startingWithPosition: 0, callback: { (error) in
+        self.player?.playSpotifyURI("spotify:track:0oPdaY4dXtc3ZsaG17V972", startingWith: 0, startingWithPosition: 0, callback: { (error) in
             if (error != nil) {
                 print("playing!")
             }
             
             
         })
-    }*/
+        
+        createLibrary()
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func createLibrary(){
+        let accessToken = session.accessToken
+        let request: URLRequest = try! SPTYourMusic.createRequestForCurrentUsersSavedTracks(withAccessToken: accessToken)
+        SPTRequest.sharedHandler().perform(request) { (error, response, data) in
+            if error != nil {
+                print(error)
+                
+            }
+            let listPage = try! SPTListPage(from: data, with: response, expectingPartialChildren: false, rootObjectKey: nil)
+            self.libraryCount = listPage.items.count
+            var count = listPage.items.count
+            
+            for i in 0 ..< count{
+                var track:SPTPartialTrack = listPage.items[i] as! SPTPartialTrack
+                var artist:SPTPartialArtist = ((track.artists as! NSArray).object(at: 0) as? SPTPartialArtist)!
+                
+                self.musicLibraryC.append(Library(songName: track.name, songArtist: artist.name, songUri: track.playableUri.absoluteString))
+                
+                
+            }
+            
+            
+            
+            
+            
+        }
     }
     
 

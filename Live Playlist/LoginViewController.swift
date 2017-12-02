@@ -126,7 +126,7 @@ class LoginViewController: UIViewController{
             }
         }
         
-        //self.performSegue(withIdentifier: "loginSegue", sender: self)
+        self.performSegue(withIdentifier: "loginSegue", sender: self)
     }
 
     /*

@@ -23,7 +23,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     var libarry = [String]()
     
     var libraryCount = 0
-    var player: SPTAudioStreamingController?
+    var player = SPTAudioStreamingController.sharedInstance()
     var session:SPTSession!
     var auth = SPTAuth.defaultInstance()!
     var userDefaults = UserDefaults.standard
@@ -46,21 +46,23 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         setup()
         
         
-        
-        if let sessionObj:AnyObject = userDefaults.object(forKey: "SpotifySession") as AnyObject? {
-            
-            let sessionDataObj = sessionObj as! Data
-            let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
-            
-            self.session = firstTimeSession
-            initializePlayer(authSession: session)
-           
-           
-            
-            
 
-        // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        let trackName = self.player?.metadata.currentTrack?.name
+        let albName = self.player?.metadata.currentTrack?.albumName
+        let artiName = self.player?.metadata.currentTrack?.artistName
+        let albumart = self.player?.metadata.currentTrack?.albumCoverArtURL
+        self.songName.text = trackName!
+        self.albumName.text = albName!
+        self.artistName.text = artiName!
+        let  albumarturl = URL(string: albumart!)
+        let data = try? Data(contentsOf: albumarturl!)
+        let image = UIImage(data: data!)
+        self.albumArtwork.image = image
+        
     }
     
 
@@ -70,106 +72,16 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         
     }
     
-    func initializePlayer(authSession:SPTSession){
-        
-        if self.player == nil {
-            self.player = SPTAudioStreamingController.sharedInstance()
-            self.player!.playbackDelegate = self
-            self.player!.delegate = self
-            try! player!.start(withClientId: auth.clientID)
-            self.player!.login(withAccessToken: authSession.accessToken)
-            print("player is initialized")
-        }
-        
   
-    }
-    
   
    
-    func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-     // after a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
-        print("logged in")
-        self.player?.playSpotifyURI("spotify:track:6tN6rdEfm6ZtuKsqpoh3on", startingWith: 0, startingWithPosition: 0, callback: { (error) in
-            if (error != nil) {
-                print(error)
-            }
-     
-        })
-        
-        createLibrary()
-        var tmpc = musicLibraryC.count
-        if self.libraryCount == tmpc{
-            print("finished creating library")
-        }
-     
-
-        
-    }
         
         
    
     
-    func createLibrary(){
-        let accessToken = session.accessToken
-        let request: URLRequest = try! SPTYourMusic.createRequestForCurrentUsersSavedTracks(withAccessToken: accessToken)
-        SPTRequest.sharedHandler().perform(request) { (error, response, data) in
-            if error != nil {
-                print(error)
-                
-            }
-            let listPage = try! SPTListPage(from: data, with: response, expectingPartialChildren: false, rootObjectKey: nil)
-            self.libraryCount = listPage.items.count
-            var count = listPage.items.count
-            for i in 0 ..< count{
-                self.libarr.append(String(describing: listPage.items[i]))
-                self.libarry.append(String(self.libarr[i].reversed()))
-                
-                
-                self.libarry[i].removeFirst()
-                if let range = self.libarry[i].range(of: "(")
-                {
-                    self.libarry[i] = String(self.libarry[i][self.libarry[i].startIndex..<range.lowerBound])
-                }
-                self.libarry[i] = String(self.libarry[i].reversed())
-            }
-            
-            print(self.libarry[0])
-            self.fixuriarray()
-            
-            
-            
-        }
-    }
+ 
     
-    func fixuriarray(){
-        
-        
-        var market = NSLocale.current.regionCode as? String
-        
-        
-        var count = self.libarry.count
-        for i in 0 ..< count{
-            
-            let request: URLRequest? = try? SPTTrack.createRequest(forTrack: URL(string: self.libarry[i] ), withAccessToken: session.accessToken, market: market! )
-            SPTRequest.sharedHandler().perform(request) { (error, response, data) in
-                if error != nil {
-                    print(error)
-                    
-                }
-                let track = try? SPTTrack(from: data, with: response)
-                
-                let trackArtist:SPTPartialArtist = ((track?.artists as! NSArray).object(at: 0) as? SPTPartialArtist)!
-                
-                
-                self.musicLibraryC.append(Library(songName:track!.name,songArtist:trackArtist.name,songUri:track!.playableUri.absoluteString))
-               
-                
-            }
-            
-        }
-        
-        
-    }
+  
     
     
     
