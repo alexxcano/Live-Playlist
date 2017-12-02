@@ -29,7 +29,7 @@ class LoginViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         // print(FIRAuth.auth()?.currentUser?.email)
-        
+    
         // Customization
         rectangleBackground.layer.cornerRadius = 10.0
         fbLogInBttn.layer.cornerRadius = 24.0
@@ -96,7 +96,7 @@ class LoginViewController: UIViewController{
                         }
                         
                         // Sign up successful
-                        let ref = FIRDatabase.database().reference(fromURL: "https://live-playlist-288e2.firebaseio.com/")
+                        let ref = FIRDatabase.database().reference()
                         let usersReference = ref.child("Users").child(uid)
                         let values = ["email": self.emailTextField.text]
                         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in

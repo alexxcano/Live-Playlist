@@ -7,18 +7,27 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
 
 class PartyController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAudioStreamingDelegate {
 
     @IBOutlet weak var hostPartyBttn: UIButton!
     @IBOutlet weak var addSongBttn: UIButton!
+    @IBOutlet weak var joinPartyBttn: UIButton!
+    @IBOutlet weak var partyName: UITextField!
+    
+    var ref:FIRDatabaseReference?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        
+        ref = FIRDatabase.database().reference()
+        
         hostPartyBttn.layer.cornerRadius = 24.0
-        addSongBttn.layer.cornerRadius = 26.0
+        joinPartyBttn.layer.cornerRadius = 24.0
+        addSongBttn.layer.cornerRadius = 24.0
 
     }
 
@@ -43,11 +52,13 @@ class PartyController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAu
     
     @IBAction func hostPartyButton(_ sender: Any) {
         hideButtons()
-        print("Host party is selected")
+        ref?.child("Parties").childByAutoId().setValue(partyName.text)
     }
     
     func hideButtons(){
         self.hostPartyBttn.isHidden = true
+        self.joinPartyBttn.isHidden = true
+        self.partyName.isHidden = true
         self.addSongBttn.isHidden = false
     }
     
