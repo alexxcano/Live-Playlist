@@ -335,40 +335,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bh9-6p-fcE">
-                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <items>
-                                    <tabBarItem systemItem="favorites" id="4ey-42-wcU"/>
-                                    <tabBarItem systemItem="more" id="OET-ie-Bka"/>
-                                </items>
-                            </tabBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6E4-G6-sM5">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0sg-lW-mKK">
+                                <rect key="frame" x="0.0" y="54" width="375" height="613"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="3xw-Oa-ozx" id="S2m-iB-9XT"/>
-                                    <outlet property="delegate" destination="3xw-Oa-ozx" id="GLu-Sa-9Th"/>
+                                    <outlet property="dataSource" destination="3xw-Oa-ozx" id="Ny9-iW-QiD"/>
+                                    <outlet property="delegate" destination="3xw-Oa-ozx" id="FKF-xy-o6c"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="23F-3y-Igl">
+                                <rect key="frame" x="0.0" y="-2" width="375" height="56"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="3xw-Oa-ozx" id="2nA-g5-KQF"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="bh9-6p-fcE" firstAttribute="trailing" secondItem="out-kj-6Tf" secondAttribute="trailing" id="DHV-xi-OXd"/>
-                            <constraint firstItem="bh9-6p-fcE" firstAttribute="top" secondItem="6E4-G6-sM5" secondAttribute="bottom" id="Hvc-9P-RG6"/>
-                            <constraint firstItem="6E4-G6-sM5" firstAttribute="trailing" secondItem="out-kj-6Tf" secondAttribute="trailing" id="OSp-5a-gnq"/>
-                            <constraint firstItem="bh9-6p-fcE" firstAttribute="leading" secondItem="out-kj-6Tf" secondAttribute="leading" id="V6c-Ua-p7W"/>
-                            <constraint firstItem="6E4-G6-sM5" firstAttribute="top" secondItem="W0V-HN-MJe" secondAttribute="top" id="ikh-BU-laf"/>
-                            <constraint firstItem="bh9-6p-fcE" firstAttribute="bottom" secondItem="out-kj-6Tf" secondAttribute="bottom" id="kc2-G8-8ep"/>
-                            <constraint firstItem="6E4-G6-sM5" firstAttribute="leading" secondItem="out-kj-6Tf" secondAttribute="leading" id="ncW-j2-7cP"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="out-kj-6Tf"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="My music" id="RpH-jf-glm"/>
+                    <connections>
+                        <outlet property="libraryMusicView" destination="0sg-lW-mKK" id="Lmm-kO-Gda"/>
+                        <outlet property="searchBarField" destination="23F-3y-Igl" id="B6e-bA-ADB"/>
+                        <outlet property="searchDController" destination="r3Y-TW-5Aw" id="8JX-Qq-BrT"/>
+                        <outlet property="searchDisplayController" destination="r3Y-TW-5Aw" id="50O-DL-Sql"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rj-hr-GNU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="r3Y-TW-5Aw">
+                    <connections>
+                        <outlet property="delegate" destination="3xw-Oa-ozx" id="JYy-CH-IN4"/>
+                        <outlet property="searchBar" destination="23F-3y-Igl" id="LuN-sa-8qR"/>
+                        <outlet property="searchContentsController" destination="3xw-Oa-ozx" id="LKt-j4-Zfw"/>
+                        <outlet property="searchResultsDataSource" destination="3xw-Oa-ozx" id="nVR-nT-YBE"/>
+                        <outlet property="searchResultsDelegate" destination="3xw-Oa-ozx" id="c30-Uu-abq"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="892.75362318840587" y="983.96739130434787"/>
+            <point key="canvasLocation" x="892" y="983.65817091454278"/>
         </scene>
         <!--Now Playing-->
         <scene sceneID="rOJ-zs-NA7">
