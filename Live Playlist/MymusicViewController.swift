@@ -10,23 +10,70 @@ import UIKit
 //import MusicLibraryClass
 
 
-class MymusicViewController: UIViewController,UITableViewDataSource, UITableViewDelegate, SPTAudioStreamingPlaybackDelegate,SPTAudioStreamingDelegate {
+class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBarDelegate, UITableViewDelegate, SPTAudioStreamingPlaybackDelegate,SPTAudioStreamingDelegate {
+    
+    @IBOutlet weak var libraryMusicView: UITableView!
+    
+    @IBOutlet weak var searchBarField: UISearchBar!
+    
+    @IBOutlet var searchDController: UISearchDisplayController!
+    var session: SPTSession!
+    var searchbarClicked = false
+    var searchreturnClicked = false
+    var searchTracks = [Library]()
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        getlibrary()
-        return tmpmusicLibrary.count
+        
+        if searchreturnClicked && searchbarClicked == false
+        {
+            return searchTracks.count
+        }
+        else if searchreturnClicked == false && searchbarClicked == false
+        {
+            getlibrary()
+            return tmpmusicLibrary.count
+        }
+        else if searchbarClicked && searchreturnClicked == false
+        {
+            return 1
+        }
+        else
+        {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
-        cell.accessoryType = .detailButton
-        var songN = tmpmusicLibrary[indexPath.row].songName
         
-        cell.textLabel?.text = songN
-        return cell
+        var cell = UITableViewCell()
+
+        if searchreturnClicked && searchbarClicked == false
+        {
+            cell.accessoryType = .detailButton
+            cell.textLabel?.text = searchTracks[indexPath.row].songArtist
+            return cell
+        }
+        else if searchreturnClicked == false && searchbarClicked == false
+        {
+            cell.accessoryType = .detailButton
+            var songN = tmpmusicLibrary[indexPath.row].songName
+        
+            cell.textLabel?.text = songN
+            return cell
+        }
+        else if searchbarClicked && searchreturnClicked == false
+        {
+            cell.textLabel?.text = ""
+            return cell
+        }
+        else
+        {
+            cell.textLabel?.text = ""
+            return cell
+        }
     }
     
    // this is the function that happens when you press the button circle thing next to the song
@@ -36,7 +83,14 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UITableView
         //so if you wanna test a song uri just do
         //tmpmusicLibrary[indexPath.row].songUri or tmpmusicLibrary[0].songUri with whatever youre using
         //deuces
-        print(tmpmusicLibrary[indexPath.row].songUri)
+        if searchreturnClicked == false && searchbarClicked == false
+        {
+            print(tmpmusicLibrary[indexPath.row].songUri)
+        }
+        else
+        {
+            print(searchTracks[indexPath.row].songUri)
+        }
         
     }
     
@@ -53,7 +107,6 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UITableView
     var libarry = [String]()
     var libraryCount = 0
     
-    var count = NowPlayingViewController().self.musicLibraryC.count
     
 
     
@@ -70,11 +123,105 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        searchBarField.delegate = self
+        libraryMusicView.delegate = self
+        libraryMusicView.dataSource = self
+        if let sessionObj:AnyObject = UserDefaults.standard.object(forKey: "SpotifySession") as AnyObject? {
+            
+            let sessionDataObj = sessionObj as! Data
+            let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
+            
+            self.session = firstTimeSession
+        }
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.searchreturnClicked = false
+        self.searchbarClicked = false
+        self.libraryMusicView.reloadData()
+    }
+    
+    public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        
+        searchreturnClicked = false
+        searchbarClicked = true
+        
+    }
+    
+   
+    
+    public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
 
+        searchreturnClicked = false
+        searchbarClicked = false
+        print("searchbuttonclicked")
+    }
+    
+    
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    {
+        
+        
+        if searchTracks.isEmpty == false
+        {
+            searchTracks.removeAll()
+        }
+        
+        if searchBar.text! == ""
+        {
+            print("nothing in searchbar")
+         
+        }
+        else
+        {
+            
+
+            let request: URLRequest = try! SPTSearch.createRequestForSearch(withQuery: searchBar.text!, queryType: SPTSearchQueryType.queryTypeTrack, accessToken: session.accessToken)
+            
+            SPTRequest.sharedHandler().perform(request) { (error, response, data) in
+                if error != nil
+                {
+                    print(error)
+                }
+                
+                var listPage = try? SPTSearch.searchResults(from: data, with: response, queryType: SPTSearchQueryType.queryTypeTrack)
+                
+                var count = listPage?.items.count
+                for i in 0 ..< count!
+                {
+                    var track: SPTPartialTrack = listPage?.items[i] as! SPTPartialTrack
+                    var trackartist:SPTPartialArtist = ((track.artists as! NSArray).object(at: 0) as? SPTPartialArtist)!
+                    self.searchTracks.append(Library(songName: track.name, songArtist: trackartist.name, songUri: track.playableUri.absoluteString))
+                }
+                
+                
+                
+                
+                print(self.searchTracks[0])
+                
+                DispatchQueue.main.async {
+                    self.searchreturnClicked = true
+                    self.searchbarClicked = false
+                   
+                    self.libraryMusicView.reloadData()
+                }
+
+            }
+            
+
+            
+        }
+        self.searchDController.isActive = false
+
+        
+    }
+                
+        
+        
+
+        
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
