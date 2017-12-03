@@ -27,6 +27,7 @@
 		8F440C871F9BF9D800D8C7FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F440C851F9BF9D800D8C7FD /* LaunchScreen.storyboard */; };
 		8F440C921F9BF9D800D8C7FD /* Live_PlaylistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F440C911F9BF9D800D8C7FD /* Live_PlaylistTests.swift */; };
 		8F440C9D1F9BF9D800D8C7FD /* Live_PlaylistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F440C9C1F9BF9D800D8C7FD /* Live_PlaylistUITests.swift */; };
+		8F85A7161FD3341D0034DF9B /* PartyPlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F85A7151FD3341D0034DF9B /* PartyPlaylistController.swift */; };
 		8F99DBB41FCD3ADF00D0A76F /* PartyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F99DBB31FCD3ADF00D0A76F /* PartyController.swift */; };
 		8FD19CDF1FA2E9BC00F15EC4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD19CDE1FA2E9BC00F15EC4 /* LoginViewController.swift */; };
 		90EA83C6FE1A2FE52EE453D0 /* Pods_Live_Playlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDA32DAD15BBC178659E05E4 /* Pods_Live_Playlist.framework */; };
@@ -81,6 +82,7 @@
 		8F440C981F9BF9D800D8C7FD /* Live PlaylistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Live PlaylistUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F440C9C1F9BF9D800D8C7FD /* Live_PlaylistUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live_PlaylistUITests.swift; sourceTree = "<group>"; };
 		8F440C9E1F9BF9D800D8C7FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F85A7151FD3341D0034DF9B /* PartyPlaylistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyPlaylistController.swift; sourceTree = "<group>"; };
 		8F99DBB31FCD3ADF00D0A76F /* PartyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyController.swift; sourceTree = "<group>"; };
 		8FD19CDE1FA2E9BC00F15EC4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		96634C167ABE65CE10E0996B /* Pods-Live PlaylistTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Live PlaylistTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Live PlaylistTests/Pods-Live PlaylistTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				2016D5171FA29F10002D2C3A /* LoginSpotifyViewController.swift */,
 				8F440C7E1F9BF9D800D8C7FD /* ViewController.swift */,
 				8F99DBB31FCD3ADF00D0A76F /* PartyController.swift */,
+				8F85A7151FD3341D0034DF9B /* PartyPlaylistController.swift */,
 				2036CB0C1FA8F6D300105DE8 /* Live-PlaylistModel.xcdatamodeld */,
 				8FD19CDE1FA2E9BC00F15EC4 /* LoginViewController.swift */,
 				8F1DD89B1FA10F3D000C0358 /* TableViewController.swift */,
@@ -522,6 +525,7 @@
 			files = (
 				2051764E1FAA609C006B6B82 /* NowPlayingViewController.swift in Sources */,
 				20E0AC371FCE542A00BC2340 /* MymusicViewController.swift in Sources */,
+				8F85A7161FD3341D0034DF9B /* PartyPlaylistController.swift in Sources */,
 				8FD19CDF1FA2E9BC00F15EC4 /* LoginViewController.swift in Sources */,
 				8F440C7F1F9BF9D800D8C7FD /* ViewController.swift in Sources */,
 				2016D5161FA29E60002D2C3A /* BridgeViewController.m in Sources */,

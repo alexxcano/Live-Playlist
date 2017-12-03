@@ -13,21 +13,29 @@ import FirebaseDatabase
 class PartyController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAudioStreamingDelegate {
 
     @IBOutlet weak var hostPartyBttn: UIButton!
-    @IBOutlet weak var addSongBttn: UIButton!
-    @IBOutlet weak var joinPartyBttn: UIButton!
+    //@IBOutlet weak var addSongBttn: UIButton!
+    //@IBOutlet weak var joinPartyBttn: UIButton!
     @IBOutlet weak var partyName: UITextField!
     
     var ref:FIRDatabaseReference?
+    var databaseHandle:FIRDatabaseHandle?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
+        //Set the Firebase reference
         ref = FIRDatabase.database().reference()
         
+        //Retrieve the parties and listen for changes
+        ref.child("Parties").queryOrderedByKey()
+        
         hostPartyBttn.layer.cornerRadius = 24.0
-        joinPartyBttn.layer.cornerRadius = 24.0
-        addSongBttn.layer.cornerRadius = 24.0
+        //joinPartyBttn.layer.cornerRadius = 24.0
+        //addSongBttn.layer.cornerRadius = 24.0
+        
+        //Retrieve parties from Firebase
+        
 
     }
 
@@ -51,16 +59,21 @@ class PartyController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAu
     }*/
     
     @IBAction func hostPartyButton(_ sender: Any) {
-        hideButtons()
-        ref?.child("Parties").childByAutoId().setValue(partyName.text)
+        //hideButtons()
+        if partyName.text != nil {
+            ref?.child("Parties").childByAutoId().setValue(partyName.text)
+            self.performSegue(withIdentifier: "partyPlaylistSegue", sender: self)
+        }else {
+            print("Name emp")
+        }
     }
     
-    func hideButtons(){
+    /*func hideButtons(){
         self.hostPartyBttn.isHidden = true
         self.joinPartyBttn.isHidden = true
         self.partyName.isHidden = true
         self.addSongBttn.isHidden = false
-    }
+    }*/
     
     /*
     // MARK: - Navigation

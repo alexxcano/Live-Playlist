@@ -112,7 +112,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="178" id="sn7-Df-J3g"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="28"/>
                                 <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -479,7 +479,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SNB-ja-24o">
-                                <rect key="frame" x="52.5" y="94" width="270" height="50"/>
+                                <rect key="frame" x="52" y="190" width="270" height="50"/>
                                 <color key="backgroundColor" red="0.19196471571922302" green="0.72634232044219971" blue="0.32958662509918213" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="7se-5Q-LWO"/>
@@ -493,24 +493,58 @@
                                     <action selector="hostPartyButton:" destination="ijP-fy-G4r" eventType="touchUpInside" id="gAT-kB-XsJ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXt-33-mKx">
-                                <rect key="frame" x="52.5" y="158" width="270" height="50"/>
-                                <color key="backgroundColor" red="0.29414340853691101" green="0.43197202682495117" blue="0.6635785698890686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter party name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zbd-uh-d7q">
+                                <rect key="frame" x="52" y="123" width="270" height="40"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="270" id="Iew-sl-CdB"/>
-                                    <constraint firstAttribute="height" constant="50" id="fTa-Qq-aGo"/>
+                                    <constraint firstAttribute="height" constant="40" id="RVr-wQ-LeS"/>
+                                    <constraint firstAttribute="width" constant="270" id="wcH-Zc-ilP"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Join Party">
-                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                            </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tZV-77-6b4">
-                                <rect key="frame" x="0.0" y="276.5" width="375" height="341.5"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAz-3D-i4h">
+                                <rect key="frame" x="0.0" y="331" width="375" height="287"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1j-MZ-KJ6">
-                                <rect key="frame" x="135.5" y="216" width="104" height="50"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="SNB-ja-24o" firstAttribute="leading" secondItem="Vev-kt-7dv" secondAttribute="leading" constant="52" id="4Oa-x2-Wn0"/>
+                            <constraint firstItem="nAz-3D-i4h" firstAttribute="bottom" secondItem="Vev-kt-7dv" secondAttribute="bottom" id="5a4-aw-0Z5"/>
+                            <constraint firstItem="nAz-3D-i4h" firstAttribute="leading" secondItem="Vev-kt-7dv" secondAttribute="leading" id="7Q3-la-Q2g"/>
+                            <constraint firstItem="nAz-3D-i4h" firstAttribute="trailing" secondItem="Vev-kt-7dv" secondAttribute="trailing" id="FIX-kW-EO8"/>
+                            <constraint firstItem="SNB-ja-24o" firstAttribute="top" secondItem="Zbd-uh-d7q" secondAttribute="bottom" constant="27" id="IDj-PX-Jy1"/>
+                            <constraint firstItem="SNB-ja-24o" firstAttribute="centerX" secondItem="BFv-eL-Rv4" secondAttribute="centerX" id="SBd-aZ-nuk"/>
+                            <constraint firstItem="Zbd-uh-d7q" firstAttribute="top" secondItem="Vev-kt-7dv" secondAttribute="top" constant="103" id="ZgU-ze-9jg"/>
+                            <constraint firstItem="nAz-3D-i4h" firstAttribute="top" secondItem="SNB-ja-24o" secondAttribute="bottom" constant="91" id="i1N-N5-yh3"/>
+                            <constraint firstItem="Zbd-uh-d7q" firstAttribute="leading" secondItem="Vev-kt-7dv" secondAttribute="leading" constant="52" id="rBl-M8-Mgj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Vev-kt-7dv"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Party" id="Kkx-mw-Lqj"/>
+                    <connections>
+                        <outlet property="addSongBttn" destination="Z1j-MZ-KJ6" id="IaQ-qs-KJY"/>
+                        <outlet property="hostPartyBttn" destination="SNB-ja-24o" id="loc-Qp-1zF"/>
+                        <outlet property="partyName" destination="Zbd-uh-d7q" id="1Oe-2T-IPV"/>
+                        <segue destination="09W-cD-98a" kind="show" identifier="partyPlaylistSegue" id="41M-XV-3K7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QX8-C6-fA5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1772" y="-233.43328335832086"/>
+        </scene>
+        <!--Party Playlist Controller-->
+        <scene sceneID="rdc-54-MIf">
+            <objects>
+                <viewController id="09W-cD-98a" customClass="PartyPlaylistController" customModule="Live_Playlist" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tf1-in-b0v">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1j-MZ-KJ6">
+                                <rect key="frame" x="135" y="217" width="104" height="50"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="FRI-Jf-Jof"/>
@@ -524,46 +558,23 @@
                                     <segue destination="3xw-Oa-ozx" kind="show" id="jvH-0A-MkK"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter party name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zbd-uh-d7q">
-                                <rect key="frame" x="52.5" y="40" width="270" height="40"/>
-                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="RVr-wQ-LeS"/>
-                                    <constraint firstAttribute="width" constant="270" id="wcH-Zc-ilP"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done"/>
-                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ilc-87-wv3">
+                                <rect key="frame" x="0.0" y="275" width="375" height="392"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Z1j-MZ-KJ6" firstAttribute="centerX" secondItem="BFv-eL-Rv4" secondAttribute="centerX" id="8aO-Vs-Ob8"/>
-                            <constraint firstItem="SNB-ja-24o" firstAttribute="top" secondItem="Zbd-uh-d7q" secondAttribute="bottom" constant="14" id="8kN-pI-1ug"/>
-                            <constraint firstItem="Z1j-MZ-KJ6" firstAttribute="top" secondItem="oXt-33-mKx" secondAttribute="bottom" constant="8" id="WRZ-7e-WEk"/>
-                            <constraint firstItem="Zbd-uh-d7q" firstAttribute="top" secondItem="Vev-kt-7dv" secondAttribute="top" constant="20" id="Wh3-5Z-G8r"/>
-                            <constraint firstItem="tZV-77-6b4" firstAttribute="leading" secondItem="Vev-kt-7dv" secondAttribute="leading" id="XCm-qJ-qoR"/>
-                            <constraint firstItem="tZV-77-6b4" firstAttribute="top" secondItem="Z1j-MZ-KJ6" secondAttribute="bottom" constant="10.5" id="dGV-xY-kA5"/>
-                            <constraint firstItem="Zbd-uh-d7q" firstAttribute="centerX" secondItem="BFv-eL-Rv4" secondAttribute="centerX" id="h2Z-X1-gkN"/>
-                            <constraint firstItem="tZV-77-6b4" firstAttribute="bottom" secondItem="Vev-kt-7dv" secondAttribute="bottom" id="piU-15-hQc"/>
-                            <constraint firstItem="SNB-ja-24o" firstAttribute="centerX" secondItem="BFv-eL-Rv4" secondAttribute="centerX" id="uOP-03-jXf"/>
-                            <constraint firstItem="oXt-33-mKx" firstAttribute="top" secondItem="SNB-ja-24o" secondAttribute="bottom" constant="14" id="ure-R5-mz3"/>
-                            <constraint firstItem="oXt-33-mKx" firstAttribute="centerX" secondItem="BFv-eL-Rv4" secondAttribute="centerX" id="wkx-iS-CNN"/>
-                            <constraint firstItem="tZV-77-6b4" firstAttribute="trailing" secondItem="Vev-kt-7dv" secondAttribute="trailing" id="zgq-CE-57B"/>
+                            <constraint firstItem="Z1j-MZ-KJ6" firstAttribute="centerX" secondItem="Tf1-in-b0v" secondAttribute="centerX" id="1yG-KA-6CR"/>
+                            <constraint firstItem="gi1-6A-njd" firstAttribute="trailing" secondItem="Z1j-MZ-KJ6" secondAttribute="trailing" constant="136" id="gMe-cD-4zu"/>
+                            <constraint firstItem="Ilc-87-wv3" firstAttribute="top" secondItem="Z1j-MZ-KJ6" secondAttribute="bottom" constant="8" id="uAd-Zx-jU6"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Vev-kt-7dv"/>
+                        <viewLayoutGuide key="safeArea" id="gi1-6A-njd"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Party" id="Kkx-mw-Lqj"/>
-                    <connections>
-                        <outlet property="addSongBttn" destination="Z1j-MZ-KJ6" id="IaQ-qs-KJY"/>
-                        <outlet property="hostPartyBttn" destination="SNB-ja-24o" id="loc-Qp-1zF"/>
-                        <outlet property="joinPartyBttn" destination="oXt-33-mKx" id="NFo-RO-dk3"/>
-                        <outlet property="partyName" destination="Zbd-uh-d7q" id="1Oe-2T-IPV"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QX8-C6-fA5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7W5-LY-xh5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1708" y="-232.53373313343329"/>
+            <point key="canvasLocation" x="2588" y="-233.43328335832086"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Vwt-uM-UJ6">
