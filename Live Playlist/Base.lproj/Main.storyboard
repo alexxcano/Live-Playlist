@@ -511,21 +511,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done"/>
                             </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAz-3D-i4h">
-                                <rect key="frame" x="0.0" y="331" width="375" height="287"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3mF-ET-FUr">
+                                <rect key="frame" x="0.0" y="272" width="375" height="346"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
+                                <connections>
+                                    <outlet property="dataSource" destination="ijP-fy-G4r" id="ufF-Xg-u2C"/>
+                                    <outlet property="delegate" destination="ijP-fy-G4r" id="CU0-2U-3Gp"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="SNB-ja-24o" firstAttribute="leading" secondItem="Vev-kt-7dv" secondAttribute="leading" constant="52" id="4Oa-x2-Wn0"/>
-                            <constraint firstItem="nAz-3D-i4h" firstAttribute="bottom" secondItem="Vev-kt-7dv" secondAttribute="bottom" id="5a4-aw-0Z5"/>
-                            <constraint firstItem="nAz-3D-i4h" firstAttribute="leading" secondItem="Vev-kt-7dv" secondAttribute="leading" id="7Q3-la-Q2g"/>
-                            <constraint firstItem="nAz-3D-i4h" firstAttribute="trailing" secondItem="Vev-kt-7dv" secondAttribute="trailing" id="FIX-kW-EO8"/>
                             <constraint firstItem="SNB-ja-24o" firstAttribute="top" secondItem="Zbd-uh-d7q" secondAttribute="bottom" constant="27" id="IDj-PX-Jy1"/>
                             <constraint firstItem="SNB-ja-24o" firstAttribute="centerX" secondItem="BFv-eL-Rv4" secondAttribute="centerX" id="SBd-aZ-nuk"/>
                             <constraint firstItem="Zbd-uh-d7q" firstAttribute="top" secondItem="Vev-kt-7dv" secondAttribute="top" constant="103" id="ZgU-ze-9jg"/>
-                            <constraint firstItem="nAz-3D-i4h" firstAttribute="top" secondItem="SNB-ja-24o" secondAttribute="bottom" constant="91" id="i1N-N5-yh3"/>
                             <constraint firstItem="Zbd-uh-d7q" firstAttribute="leading" secondItem="Vev-kt-7dv" secondAttribute="leading" constant="52" id="rBl-M8-Mgj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vev-kt-7dv"/>
@@ -535,12 +536,13 @@
                         <outlet property="addSongBttn" destination="Z1j-MZ-KJ6" id="IaQ-qs-KJY"/>
                         <outlet property="hostPartyBttn" destination="SNB-ja-24o" id="loc-Qp-1zF"/>
                         <outlet property="partyName" destination="Zbd-uh-d7q" id="1Oe-2T-IPV"/>
+                        <outlet property="tableView" destination="3mF-ET-FUr" id="mTL-Jg-fb3"/>
                         <segue destination="09W-cD-98a" kind="show" identifier="partyPlaylistSegue" id="41M-XV-3K7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QX8-C6-fA5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1772" y="-233.43328335832086"/>
+            <point key="canvasLocation" x="1704.8" y="-233.43328335832086"/>
         </scene>
         <!--Party Playlist Controller-->
         <scene sceneID="rdc-54-MIf">
@@ -581,7 +583,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7W5-LY-xh5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2588" y="-233.43328335832086"/>
+            <point key="canvasLocation" x="2558" y="-233"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Vwt-uM-UJ6">

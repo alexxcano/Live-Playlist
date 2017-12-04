@@ -10,33 +10,40 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class PartyController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAudioStreamingDelegate {
+class PartyController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var hostPartyBttn: UIButton!
     //@IBOutlet weak var addSongBttn: UIButton!
     //@IBOutlet weak var joinPartyBttn: UIButton!
     @IBOutlet weak var partyName: UITextField!
+    @IBOutlet weak var tableView: UITableView!
     
     var ref:FIRDatabaseReference?
-    var databaseHandle:FIRDatabaseHandle?
-
+    //var databaseHandle:FIRDatabaseHandle?
+    var partyNames = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.delegate = self
+        tableView.dataSource = self
+
         //Set the Firebase reference
         ref = FIRDatabase.database().reference()
         
         //Retrieve the parties and listen for changes
-        ref.child("Parties").queryOrderedByKey()
+        ref?.child("Parties").observe(.childAdded, with: { (snapshot) in
+            //self.partyNames = [snapshot.value as! String]
+            let parties = snapshot.value as? String
+            if let actualParties = parties {
+                self.partyNames.append(actualParties)
+                self.tableView.reloadData()
+            }
+        })
         
         hostPartyBttn.layer.cornerRadius = 24.0
         //joinPartyBttn.layer.cornerRadius = 24.0
         //addSongBttn.layer.cornerRadius = 24.0
         
-        //Retrieve parties from Firebase
-        
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,28 +51,29 @@ class PartyController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAu
         // Dispose of any resources that can be recreated.
     }
     
-    /*func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-        // after a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
-        print("logged in")
-        NowPlayingViewController().player?.playSpotifyURI("spotify:track:0zRtBDhwtIFTfoK2HuURbM", startingWith: 0, startingWithPosition: 0, callback: { (error) in
-            if (error != nil) {
-                print(error)
-            }
-            
-        })
-        
-        MymusicViewController().self.createLibrary(session: NowPlayingViewController().session)
-     
-    }*/
-    
     @IBAction func hostPartyButton(_ sender: Any) {
         //hideButtons()
-        if partyName.text != nil {
+        if partyName.text != "" {
             ref?.child("Parties").childByAutoId().setValue(partyName.text)
             self.performSegue(withIdentifier: "partyPlaylistSegue", sender: self)
         }else {
-            print("Name emp")
+            print("Name empty")
         }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return partyNames.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.accessoryType = .detailButton
+        cell.textLabel?.text = partyNames[indexPath.row]
+        return cell
     }
     
     /*func hideButtons(){
@@ -75,14 +83,4 @@ class PartyController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAu
         self.addSongBttn.isHidden = false
     }*/
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
