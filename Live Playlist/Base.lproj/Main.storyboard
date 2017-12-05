@@ -552,7 +552,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleAspectFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1j-MZ-KJ6">
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1j-MZ-KJ6">
                                 <rect key="frame" x="135" y="217" width="104" height="50"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -575,6 +575,7 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Z1j-MZ-KJ6" firstAttribute="centerX" secondItem="Tf1-in-b0v" secondAttribute="centerX" id="1yG-KA-6CR"/>
+                            <constraint firstItem="Z1j-MZ-KJ6" firstAttribute="top" secondItem="gi1-6A-njd" secondAttribute="top" constant="197" id="2Oh-BY-gaz"/>
                             <constraint firstItem="gi1-6A-njd" firstAttribute="trailing" secondItem="Z1j-MZ-KJ6" secondAttribute="trailing" constant="136" id="gMe-cD-4zu"/>
                             <constraint firstItem="Ilc-87-wv3" firstAttribute="top" secondItem="Z1j-MZ-KJ6" secondAttribute="bottom" constant="8" id="uAd-Zx-jU6"/>
                         </constraints>

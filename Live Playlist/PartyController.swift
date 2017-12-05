@@ -13,8 +13,6 @@ import FirebaseDatabase
 class PartyController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var hostPartyBttn: UIButton!
-    //@IBOutlet weak var addSongBttn: UIButton!
-    //@IBOutlet weak var joinPartyBttn: UIButton!
     @IBOutlet weak var partyName: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
@@ -45,20 +43,23 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
         //addSongBttn.layer.cornerRadius = 24.0
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func hostPartyButton(_ sender: Any) {
         //hideButtons()
-        if partyName.text != "" {
-            ref?.child("Parties").childByAutoId().setValue(partyName.text)
-            self.performSegue(withIdentifier: "partyPlaylistSegue", sender: self)
-        }else {
-            print("Name empty")
-        }
+        //party = (ref?.child("Parties").childByAutoId().setValue(partyName.text) as? String)!
+        let usersReference = ref?.child("Parties").childByAutoId()
+        let values = ["party": self.partyName.text]
+        usersReference?.updateChildValues(values, withCompletionBlock: { (err, ref) in
+            if err != nil {
+                print(err!)
+                return
+            }
+            else
+            {
+                print("Saved user successfully")
+            }
+        })
+        self.performSegue(withIdentifier: "partyPlaylistSegue", sender: self)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -76,6 +77,18 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
         return cell
     }
     
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+    }
+    
+    var tmpmusicLibrary = [Library]()
+
+    func getlibrary() {
+        if let data = UserDefaults.standard.value(forKey:"MusicLibrary") as? Data {
+            let songs2 = try? PropertyListDecoder().decode(Array<Library>.self, from: data)
+            tmpmusicLibrary = songs2!
+        }
+    }
     /*func hideButtons(){
         self.hostPartyBttn.isHidden = true
         self.joinPartyBttn.isHidden = true

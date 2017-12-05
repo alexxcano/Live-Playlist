@@ -38,14 +38,11 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         SPTAuth.defaultInstance().clientID = "8e6b4eaca65d4eb4afdd42f6c683cdc8"
         SPTAuth.defaultInstance().redirectURL = URL(string:"Live-Playlist://returnAfterLogin")
         
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        
-        
 
     }
     
@@ -71,20 +68,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         // Dispose of any resources that can be recreated.
         
     }
-    
-  
-  
-   
-        
-        
-   
-    
  
-    
-  
-    
-    
-    
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStartPlayingTrack trackUri: String){
         
         

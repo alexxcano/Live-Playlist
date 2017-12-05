@@ -114,13 +114,9 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
         if let data = UserDefaults.standard.value(forKey:"MusicLibrary") as? Data {
             let songs2 = try? PropertyListDecoder().decode(Array<Library>.self, from: data)
             tmpmusicLibrary = songs2!
-         
-            
         }
-        
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBarField.delegate = self
