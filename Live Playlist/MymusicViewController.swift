@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
 //import MusicLibraryClass
 
 
@@ -21,11 +23,17 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
     var searchbarClicked = false
     var searchreturnClicked = false
     var searchTracks = [Library]()
+    var currentParty = UserDefaults.standard.value(forKey: "currentParty")
+
+    var ref:FIRDatabaseReference?
+
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+       
         
         if searchreturnClicked && searchbarClicked == false
         {
@@ -49,7 +57,6 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell = UITableViewCell()
-
         if searchreturnClicked && searchbarClicked == false
         {
             cell.accessoryType = .detailButton
@@ -83,13 +90,26 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
         //so if you wanna test a song uri just do
         //tmpmusicLibrary[indexPath.row].songUri or tmpmusicLibrary[0].songUri with whatever youre using
         //deuces
+        
+        print(currentParty!)
+        let partyloc = ref?.child("Parties").child(currentParty! as! String)
+        let songs = partyloc?.child("Songs").childByAutoId()
+        let songs2 = ref?.child("Parties").child(currentParty! as! String).child("Songs")
         if searchreturnClicked == false && searchbarClicked == false
         {
+            //for getting the search tracks uri
             print(tmpmusicLibrary[indexPath.row].songUri)
+            songs2?.updateChildValues([tmpmusicLibrary[indexPath.row].songName: tmpmusicLibrary[indexPath.row].songUri])
+            //let usersPath = ref?.child("Parties").child(currentParty! as! String).child("Users").childByAutoId()
+            
+            
         }
         else
         {
+            //for getting the library songs uri
             print(searchTracks[indexPath.row].songUri)
+            songs2?.updateChildValues([searchTracks[indexPath.row].songName: searchTracks[indexPath.row].songUri])
+
         }
         
     }
@@ -122,6 +142,9 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
         searchBarField.delegate = self
         libraryMusicView.delegate = self
         libraryMusicView.dataSource = self
+        ref = FIRDatabase.database().reference()
+
+        
         if let sessionObj:AnyObject = UserDefaults.standard.object(forKey: "SpotifySession") as AnyObject? {
             
             let sessionDataObj = sessionObj as! Data

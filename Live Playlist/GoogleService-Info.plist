@@ -7,34 +7,34 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>251081872696-s5142085c20l8svtb884k8g0hbat8eke.apps.googleusercontent.com</string>
+	<string>704209121111-gjarj53g8oagmsk66aqcft8i5f8llc4i.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.251081872696-s5142085c20l8svtb884k8g0hbat8eke</string>
+	<string>com.googleusercontent.apps.704209121111-gjarj53g8oagmsk66aqcft8i5f8llc4i</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBpinxIxM4k65QT4ByH9ztyqu9QAj6qZPg</string>
+	<string>AIzaSyAXmPAdpHOrb7rY4CIHSP3TWUA_LK6rIZs</string>
 	<key>GCM_SENDER_ID</key>
-	<string>251081872696</string>
+	<string>704209121111</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.Live-Playlist01</string>
+	<string>com.liveplaylist.LivePlaylist1</string>
 	<key>PROJECT_ID</key>
-	<string>live-playlist-288e2</string>
+	<string>liveplaylist-6abf0</string>
 	<key>STORAGE_BUCKET</key>
-	<string>live-playlist-288e2.appspot.com</string>
+	<string>liveplaylist-6abf0.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:251081872696:ios:18f526c106b04a09</string>
+	<string>1:704209121111:ios:fbe6fb116342a5bf</string>
 	<key>DATABASE_URL</key>
-	<string>https://live-playlist-288e2.firebaseio.com</string>
+	<string>https://liveplaylist-6abf0.firebaseio.com</string>
 </dict>
 </plist>

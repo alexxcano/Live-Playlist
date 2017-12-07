@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import Foundation
+
 
 class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDelegate,SPTAudioStreamingDelegate {
     @IBOutlet weak var albumArtwork: UIImageView!
@@ -14,7 +17,8 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     @IBOutlet weak var albumName: UILabel!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var volumeControl: UISlider!
-    
+    var ref:FIRDatabaseReference?
+
     @IBOutlet weak var artistName: UILabel!
     
     var musicLibraryC = [Library]()
@@ -28,9 +32,11 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     var auth = SPTAuth.defaultInstance()!
     var userDefaults = UserDefaults.standard
     var user:SPTUser!
-    
+    var songsArr = [String]()
+    var status = false
     var isplaying = true
 
+    var songUri = [String]()
     
     func setup() {
     
@@ -43,22 +49,108 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        //getsongs()
+        let group = DispatchGroup()
+        getsongsarr(){ songUri in
+            //print(songUri.count)
+            group.enter()
+            var count = songUri.count
+            self.songsArr.append("")
 
+            for i in 0 ..< count
+            {
+                self.songsArr[i] = songUri[i]
+            
+            }
+            
+            group.leave()
+            
+        }
+        
+        group.notify(queue: .main)
+        {
+          
+           
+                
+            /*self.player?.playSpotifyURI(self.songsArr[0], startingWith: 0, startingWithPosition: 0, callback: {(error) in
+                if error == nil
+                {
+                    print("playing")
+                }
+            })*/
+
+                //self.audioStreaming(self.player, didStartPlayingTrack: self.songsArr[0])
+            //self.audioStreaming(self.player, didStopPlayingTrack: self.songsArr[0])
+            //print(self.player?.metadata.nextTrack?.playbackSourceUri)
+                //self.audioStreaming(self.player, didStopPlayingTrack: self.songsArr[0])
+
+        }
     }
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
+    
+           /*if self.player != nil
+           {
         
-        let trackName = self.player?.metadata.currentTrack?.name
-        let albName = self.player?.metadata.currentTrack?.albumName
-        let artiName = self.player?.metadata.currentTrack?.artistName
-        let albumart = self.player?.metadata.currentTrack?.albumCoverArtURL
-        self.songName.text = trackName!
-        self.albumName.text = albName!
-        self.artistName.text = artiName!
-        let  albumarturl = URL(string: albumart!)
-        let data = try? Data(contentsOf: albumarturl!)
-        let image = UIImage(data: data!)
-        self.albumArtwork.image = image
+            let trackName = self.player?.metadata.currentTrack?.name
+            let albName = self.player?.metadata.currentTrack?.albumName
+            let artiName = self.player?.metadata.currentTrack?.artistName
+            let albumart = self.player?.metadata.currentTrack?.albumCoverArtURL
+            self.songName.text = trackName!
+            self.albumName.text = albName!
+            self.artistName.text = artiName!
+            let  albumarturl = URL(string: albumart!)
+            let data = try? Data(contentsOf: albumarturl!)
+            let image = UIImage(data: data!)
+            self.albumArtwork.image = image
+      
+        }*/
+    }
+    
+ 
+    
+    func getsongsarr(completion: @escaping ([String]) -> ())
+    {
+        var songs = [String]()
+        var currentParty = userDefaults.value(forKey: "currentParty")
+        ref = FIRDatabase.database().reference()
+        ref?.child("Parties").child(currentParty as! String).child("Songs").observe(.childAdded, with: { (snapshot) in
+            
+                //songs.removeAll()
+                let song = snapshot.value as! String
+                print(song)
+                songs.append(song)
+                completion(songs)
+            
+            
+        })
+    }
+    
+     func loadsong()
+    {
+        self.audioStreamingDidBecomeActivePlaybackDevice(self.player)
+        
+        
+      
+    }
+   
+    
+    @objc func newsong()
+    {
+        self.songUri.removeFirst()
+        
+    }
+    
+    
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStopPlayingTrack trackUri: String!) {
+       audioStreaming.skipNext({(error) in
+        if error == nil
+        {
+            print("skipped")
+        }
+       })
         
     }
     
@@ -69,36 +161,41 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         
     }
  
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStartPlayingTrack trackUri: String){
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String)
+    {
         
+      
         
-        let trackName = audioStreaming.metadata.currentTrack?.name
-        let albName = audioStreaming.metadata.currentTrack?.albumName
-        let artiName = audioStreaming.metadata.currentTrack?.artistName
-        let albumart = audioStreaming.metadata.currentTrack?.albumCoverArtURL
-        self.songName.text = trackName!
-        self.albumName.text = albName!
-        self.artistName.text = artiName!
-        let  albumarturl = URL(string: albumart!)
-        let data = try? Data(contentsOf: albumarturl!)
-        let image = UIImage(data: data!)
-        self.albumArtwork.image = image
-        
-        
-        if musicLibraryC.isEmpty{
-            print("library is empty")
-        }
-        else
-        {
-            UserDefaults.standard.set(try? PropertyListEncoder().encode(musicLibraryC),forKey:"MusicLibrary")
-
+        audioStreaming.queueSpotifyURI("spotify:track:7inXu0Eaeg02VsM8kHNvzM", callback: {(error) in
+            if error == nil
+            {
+                print("queueing song")
             
-        }
+            }
+        })
+        
+    }
+        
+        
+   
+        
+       
+        
+    
+    
+    func audioStreamingDidBecomeActivePlaybackDevice(_ audioStreaming: SPTAudioStreamingController!)
+    {
+        
+        audioStreaming.playSpotifyURI(self.songsArr[0], startingWith: 0, startingWithPosition: 0, callback: {(error) in
+            if error == nil
+            {
+                print("playing")
+            }
+        })
         
     }
     
     
- 
    
     
     @IBAction func playButtonAct(_ sender: Any) {
@@ -130,7 +227,6 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
                 print(error)
             }
             
-            //
             
             
         })

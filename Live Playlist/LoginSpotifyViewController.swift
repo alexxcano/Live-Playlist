@@ -129,15 +129,28 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
         // after a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
         print("logged in")
-        self.player?.playSpotifyURI("spotify:track:0oPdaY4dXtc3ZsaG17V972", startingWith: 0, startingWithPosition: 0, callback: { (error) in
-            if (error != nil) {
-                print("playing!")
-            }
+        //self.player?.playSpotifyURI("spotify:track:0oPdaY4dXtc3ZsaG17V972", startingWith: 0, startingWithPosition: 0, callback: { (error) in
+           // if (error != nil) {
+               // print("playing!")
+            //}
             
             
-        })
+        
         
         createLibrary()
+        
+    }
+    
+    
+    func audioStreamingDidBecomeActivePlaybackDevice(_ audioStreaming: SPTAudioStreamingController!)
+    {
+        
+        audioStreaming.playSpotifyURI("spotify:track:6uWp8yAt8dN5ZaT7REJ6RV", startingWith: 0, startingWithPosition: 0, callback: {(error) in
+            if error == nil
+            {
+                print("playing")
+            }
+        })
         
     }
     
@@ -168,11 +181,14 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
                 
             }
             
-            
+            //print(self.musicLibraryC[0].songName)
             
             
             
         }
+        //print(self.musicLibraryC[0].songName)
+
+        
     }
     
 

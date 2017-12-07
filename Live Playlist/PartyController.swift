@@ -17,9 +17,10 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
     @IBOutlet weak var tableView: UITableView!
     
     var ref:FIRDatabaseReference?
-    //var databaseHandle:FIRDatabaseHandle?
+    var databaseHandle:FIRDatabaseHandle?
     var partyNames = [String]()
-    
+    let user = FIRAuth.auth()?.currentUser
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -30,12 +31,12 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
         
         //Retrieve the parties and listen for changes
         ref?.child("Parties").observe(.childAdded, with: { (snapshot) in
-            //self.partyNames = [snapshot.value as! String]
-            let parties = snapshot.value as? String
-            if let actualParties = parties {
-                self.partyNames.append(actualParties)
-                self.tableView.reloadData()
-            }
+            let parties = snapshot.value as? [String: Any]
+            let tmp = parties!["party"] as? String
+            
+            self.partyNames.append(tmp!)
+            self.tableView.reloadData()
+            
         })
         
         hostPartyBttn.layer.cornerRadius = 24.0
@@ -44,12 +45,20 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
         
     }
     
+ 
+    
+
+    
     @IBAction func hostPartyButton(_ sender: Any) {
         //hideButtons()
         //party = (ref?.child("Parties").childByAutoId().setValue(partyName.text) as? String)!
-        let usersReference = ref?.child("Parties").childByAutoId()
+        let partiesReference = ref?.child("Parties").childByAutoId()
         let values = ["party": self.partyName.text]
-        usersReference?.updateChildValues(values, withCompletionBlock: { (err, ref) in
+        var partyStr = partiesReference?.key
+        UserDefaults.standard.setValue(partyStr, forKey: "currentParty")
+        print(user?.email)
+       
+        partiesReference?.updateChildValues(values, withCompletionBlock: { (err, ref) in
             if err != nil {
                 print(err!)
                 return
@@ -78,6 +87,23 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        print(partyNames[indexPath.row])
+        ref?.child("Parties").observe(.childAdded, with: {(snapshot) in
+            let userDict = snapshot.value as! [String:Any]
+            var found = userDict["party"]
+            if found as! String == self.partyNames[indexPath.row]
+            {
+                    found = snapshot.key
+                
+                    UserDefaults.standard.setValue(found, forKey: "currentParty")
+
+                
+               
+            }
+       })
+        
+        self.performSegue(withIdentifier: "partyPlaylistSegue", sender: self)
         
     }
     
