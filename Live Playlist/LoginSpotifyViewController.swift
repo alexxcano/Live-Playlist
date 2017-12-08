@@ -58,7 +58,8 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
             let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
             
             self.session = firstTimeSession
-            initializePlayer(authSession: session)
+            createLibrary()
+            //initializePlayer(authSession: session)
         }
         else
         {
@@ -142,7 +143,7 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
     }
     
     
-    func audioStreamingDidBecomeActivePlaybackDevice(_ audioStreaming: SPTAudioStreamingController!)
+    /*func audioStreamingDidBecomeActivePlaybackDevice(_ audioStreaming: SPTAudioStreamingController!)
     {
         
         audioStreaming.playSpotifyURI("spotify:track:6uWp8yAt8dN5ZaT7REJ6RV", startingWith: 0, startingWithPosition: 0, callback: {(error) in
@@ -152,7 +153,7 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
             }
         })
         
-    }
+    }*/
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

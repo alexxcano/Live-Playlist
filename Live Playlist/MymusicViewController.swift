@@ -100,7 +100,7 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
             //for getting the search tracks uri
             print(tmpmusicLibrary[indexPath.row].songUri)
             songs2?.updateChildValues([tmpmusicLibrary[indexPath.row].songName: tmpmusicLibrary[indexPath.row].songUri])
-            //let usersPath = ref?.child("Parties").child(currentParty! as! String).child("Users").childByAutoId()
+     
             
             
         }

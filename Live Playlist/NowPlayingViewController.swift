@@ -27,7 +27,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     var libarry = [String]()
     
     var libraryCount = 0
-    var player = SPTAudioStreamingController.sharedInstance()
+    var player: SPTAudioStreamingController!
     var session:SPTSession!
     var auth = SPTAuth.defaultInstance()!
     var userDefaults = UserDefaults.standard
@@ -49,6 +49,17 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        if let sessionObj:AnyObject = userDefaults.object(forKey: "SpotifySession") as AnyObject? {
+            
+            let sessionDataObj = sessionObj as! Data
+            let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
+            
+            self.session = firstTimeSession
+           
+            initializePlayer(authSession: session)
+            
+        }
+
         //getsongs()
         let group = DispatchGroup()
         getsongsarr(){ songUri in
@@ -71,43 +82,28 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         {
           
            
-                
-            /*self.player?.playSpotifyURI(self.songsArr[0], startingWith: 0, startingWithPosition: 0, callback: {(error) in
-                if error == nil
-                {
-                    print("playing")
-                }
-            })*/
-
-                //self.audioStreaming(self.player, didStartPlayingTrack: self.songsArr[0])
-            //self.audioStreaming(self.player, didStopPlayingTrack: self.songsArr[0])
-            //print(self.player?.metadata.nextTrack?.playbackSourceUri)
-                //self.audioStreaming(self.player, didStopPlayingTrack: self.songsArr[0])
+       
 
         }
     }
-    
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-    
-           /*if self.player != nil
-           {
         
-            let trackName = self.player?.metadata.currentTrack?.name
-            let albName = self.player?.metadata.currentTrack?.albumName
-            let artiName = self.player?.metadata.currentTrack?.artistName
-            let albumart = self.player?.metadata.currentTrack?.albumCoverArtURL
-            self.songName.text = trackName!
-            self.albumName.text = albName!
-            self.artistName.text = artiName!
-            let  albumarturl = URL(string: albumart!)
-            let data = try? Data(contentsOf: albumarturl!)
-            let image = UIImage(data: data!)
-            self.albumArtwork.image = image
-      
-        }*/
-    }
+        func initializePlayer(authSession:SPTSession){
+            
+            if self.player == nil {
+                self.player = SPTAudioStreamingController.sharedInstance()
+                self.player!.playbackDelegate = self
+                self.player!.delegate = self
+                
+               
+                try! player!.start(withClientId: auth.clientID)
+                self.player!.login(withAccessToken: authSession.accessToken)
+            
+            }
+        }
+    
+    
+    
+   
     
  
     
@@ -128,31 +124,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         })
     }
     
-     func loadsong()
-    {
-        self.audioStreamingDidBecomeActivePlaybackDevice(self.player)
-        
-        
-      
-    }
-   
-    
-    @objc func newsong()
-    {
-        self.songUri.removeFirst()
-        
-    }
-    
-    
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStopPlayingTrack trackUri: String!) {
-       audioStreaming.skipNext({(error) in
-        if error == nil
-        {
-            print("skipped")
-        }
-       })
-        
-    }
+
     
 
     override func didReceiveMemoryWarning() {
@@ -164,36 +136,77 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String)
     {
         
-      
+        var count = self.songsArr.count
+        if count != 1
+        {
+            self.songsArr.removeFirst()
         
-        audioStreaming.queueSpotifyURI("spotify:track:7inXu0Eaeg02VsM8kHNvzM", callback: {(error) in
-            if error == nil
-            {
-                print("queueing song")
+            audioStreaming.queueSpotifyURI(self.songsArr[0], callback: {(error) in
+                if error == nil
+                {
+                    print("queueing song")
             
-            }
-        })
-        
+                }
+            })
+            
+            let trackName = audioStreaming.metadata.currentTrack?.name
+            let albName = audioStreaming.metadata.currentTrack?.albumName
+            let artiName = audioStreaming.metadata.currentTrack?.artistName
+            let albumart = audioStreaming.metadata.currentTrack?.albumCoverArtURL
+            self.songName.text = trackName!
+            self.albumName.text = albName!
+            self.artistName.text = artiName!
+            let  albumarturl = URL(string: albumart!)
+            let data = try? Data(contentsOf: albumarturl!)
+            let image = UIImage(data: data!)
+            self.albumArtwork.image = image
+            
+        }
+        else
+        {
+            audioStreaming.queueSpotifyURI(self.songsArr[0], callback: {(error) in
+                if error == nil
+                {
+                    print("queueing song")
+                    
+                }
+            })
+            
+            let trackName = audioStreaming.metadata.currentTrack?.name
+            let albName = audioStreaming.metadata.currentTrack?.albumName
+            let artiName = audioStreaming.metadata.currentTrack?.artistName
+            let albumart = audioStreaming.metadata.currentTrack?.albumCoverArtURL
+            self.songName.text = trackName!
+            self.albumName.text = albName!
+            self.artistName.text = artiName!
+            let  albumarturl = URL(string: albumart!)
+            let data = try? Data(contentsOf: albumarturl!)
+            let image = UIImage(data: data!)
+            self.albumArtwork.image = image
+        }
     }
         
         
    
         
-       
+    func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+        // after a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
+        print("logged in")
+        self.player?.playSpotifyURI(self.songsArr[0], startingWith: 0, startingWithPosition: 0, callback: { (error) in
+        if (error == nil) {
+         print("playing!")
+        }
         
-    
-    
-    func audioStreamingDidBecomeActivePlaybackDevice(_ audioStreaming: SPTAudioStreamingController!)
-    {
         
-        audioStreaming.playSpotifyURI(self.songsArr[0], startingWith: 0, startingWithPosition: 0, callback: {(error) in
-            if error == nil
-            {
-                print("playing")
-            }
+        
+        
         })
         
     }
+        
+    
+    
+
     
     
    
