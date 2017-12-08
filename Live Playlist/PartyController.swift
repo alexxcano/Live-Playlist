@@ -52,23 +52,26 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
     @IBAction func hostPartyButton(_ sender: Any) {
         //hideButtons()
         //party = (ref?.child("Parties").childByAutoId().setValue(partyName.text) as? String)!
-        let partiesReference = ref?.child("Parties").childByAutoId()
-        let values = ["party": self.partyName.text]
-        var partyStr = partiesReference?.key
-        UserDefaults.standard.setValue(partyStr, forKey: "currentParty")
-        print(user?.email)
+        if self.partyName.text != ""
+        {
+            let partiesReference = ref?.child("Parties").childByAutoId()
+            let values = ["party": self.partyName.text]
+            var partyStr = partiesReference?.key
+            UserDefaults.standard.setValue(partyStr, forKey: "currentParty")
+            // print(user?.email)
        
-        partiesReference?.updateChildValues(values, withCompletionBlock: { (err, ref) in
-            if err != nil {
-                print(err!)
-                return
-            }
-            else
-            {
-                print("Saved user successfully")
-            }
-        })
-        self.performSegue(withIdentifier: "partyPlaylistSegue", sender: self)
+            partiesReference?.updateChildValues(values, withCompletionBlock: { (err, ref) in
+                if err != nil {
+                    print(err!)
+                    return
+                }
+                else
+                {
+                    print("Saved user successfully")
+                }
+            })
+            self.performSegue(withIdentifier: "partyPlaylistSegue", sender: self)
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

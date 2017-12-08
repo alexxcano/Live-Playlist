@@ -93,7 +93,11 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
                 self.player = SPTAudioStreamingController.sharedInstance()
                 self.player!.playbackDelegate = self
                 self.player!.delegate = self
-                
+                    if self.player.initialized
+                    {
+                       try! player!.stop()
+                }
+              
                
                 try! player!.start(withClientId: auth.clientID)
                 self.player!.login(withAccessToken: authSession.accessToken)
