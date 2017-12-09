@@ -58,7 +58,7 @@ class LoginSpotifyViewController: UIViewController, SPTAudioStreamingPlaybackDel
             let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
             
             self.session = firstTimeSession
-            createLibrary()
+            //createLibrary()
             //initializePlayer(authSession: session)
         }
         else

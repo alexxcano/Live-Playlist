@@ -41,7 +41,9 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
         }
         else if searchreturnClicked == false && searchbarClicked == false
         {
-            getlibrary()
+            //getlibrary()
+            
+            createLibrary()
             return tmpmusicLibrary.count
         }
         else if searchbarClicked && searchreturnClicked == false
@@ -94,7 +96,7 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
         print(currentParty!)
         let partyloc = ref?.child("Parties").child(currentParty! as! String)
         let songs = partyloc?.child("Songs").childByAutoId()
-        let songs2 = ref?.child("Parties").child(currentParty! as! String).child("Songs")
+        let songs2 = ref?.child("Parties").child(currentParty! as! String).child("Songs").childByAutoId()
         if searchreturnClicked == false && searchbarClicked == false
         {
             //for getting the search tracks uri
@@ -157,6 +159,7 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         self.searchreturnClicked = false
         self.searchbarClicked = false
         self.libraryMusicView.reloadData()
@@ -240,6 +243,37 @@ class MymusicViewController: UIViewController,UITableViewDataSource, UISearchBar
         
         
 
+    func createLibrary(){
+        let accessToken = session.accessToken
+        let request: URLRequest = try! SPTYourMusic.createRequestForCurrentUsersSavedTracks(withAccessToken: accessToken)
+        SPTRequest.sharedHandler().perform(request) { (error, response, data) in
+            if error != nil {
+                print(error)
+                
+            }
+            let listPage = try! SPTListPage(from: data, with: response, expectingPartialChildren: false, rootObjectKey: nil)
+            self.libraryCount = listPage.items.count
+            var count = listPage.items.count
+            
+            for i in 0 ..< count{
+                var track:SPTPartialTrack = listPage.items[i] as! SPTPartialTrack
+                var artist:SPTPartialArtist = ((track.artists as! NSArray).object(at: 0) as? SPTPartialArtist)!
+                
+                self.tmpmusicLibrary.append(Library(songName: track.name, songArtist: artist.name, songUri: track.playableUri.absoluteString))
+                
+                
+            }
+            
+            //print(self.musicLibraryC[0].songName)
+            
+            
+            
+        }
+        //print(self.musicLibraryC[0].songName)
+        
+        
+    }
+    
         
 
     override func didReceiveMemoryWarning() {

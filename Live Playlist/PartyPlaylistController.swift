@@ -68,10 +68,16 @@ class PartyPlaylistController: UIViewController, UITableViewDelegate, UITableVie
         //Retrieve the parties and listen for changes
         ref?.child("Parties").child(currentParty as! String).child("Songs").observe(.childAdded, with: { (snapshot) in
             //self.partyNames = [snapshot.value as! String]
-            let parties = snapshot.key
+            let songs = snapshot.value as? [String: String]
+            
+            var tmps = Array(songs!.keys)
+            self.songNames.append(tmps[0])
+            self.tableView.reloadData()
+            /*let parties = snapshot.key
            
             self.songNames.append(parties)
-            self.tableView.reloadData()
+            
+            self.tableView.reloadData()*/
             
         })
     }

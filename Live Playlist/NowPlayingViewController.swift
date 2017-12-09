@@ -61,30 +61,23 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         }
 
         //getsongs()
-        let group = DispatchGroup()
         getsongsarr(){ songUri in
             //print(songUri.count)
-            group.enter()
             var count = songUri.count
-            self.songsArr.append("")
+            //self.songsArr.append("")
 
             for i in 0 ..< count
             {
+                self.songsArr.append("")
+
                 self.songsArr[i] = songUri[i]
             
             }
-            
-            group.leave()
+           // self.songsArr.reverse()
             
         }
         
-        group.notify(queue: .main)
-        {
-          
-           
-       
-
-        }
+    
     }
         
         func initializePlayer(authSession:SPTSession){
@@ -119,10 +112,15 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
         ref?.child("Parties").child(currentParty as! String).child("Songs").observe(.childAdded, with: { (snapshot) in
             
                 //songs.removeAll()
-                let song = snapshot.value as! String
+            let song = snapshot.value as? [String: String]
+            let tmps = Array(song!.values)
+            //self.songUri.append(tmps[0])
+            songs.append(tmps[0])
+            completion(songs)
+                /*let song = snapshot.value as! String
                 print(song)
                 songs.append(song)
-                completion(songs)
+                completion(songs)*/
             
             
         })
