@@ -10,6 +10,8 @@ import UIKit
 import FirebaseDatabase
 
 class PartyPlaylistController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var backBttn: UIButton!
+    @IBOutlet weak var addSongBttn: UIButton!
     
     func numberOfSections(in tableView: UITableView) -> Int {
 
@@ -33,31 +35,14 @@ class PartyPlaylistController: UIViewController, UITableViewDelegate, UITableVie
 
     //var currentParty = UserDefaults.standard.value(forKey: "currentParty")
     var songNames = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.delegate = self
         tableView.dataSource = self
-        /*UserDefaults.standard.synchronize()
-        var currentParty = UserDefaults.standard.value(forKey: "JoinedParty")
-
-        print("yo what up")
-        print(currentParty)
-        ref = FIRDatabase.database().reference()
-        //print(currentParty)
-        //print("yo")
-        //Retrieve the parties and listen for changes
-        ref?.child("Parties").child(currentParty as! String).child("Songs").observe(.childAdded, with: { (snapshot) in
-            //self.partyNames = [snapshot.value as! String]
-            let parties = snapshot.key
-            print(parties)
-            //let tmp = parties!["party"] as? String
-            //print(parties)
-            self.songNames.append(parties)
-            //self.tableView.reloadData()
-            
-        })*/
-        
+        backBttn.layer.cornerRadius = 24.0
+        addSongBttn.layer.cornerRadius = 24.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,13 +66,6 @@ class PartyPlaylistController: UIViewController, UITableViewDelegate, UITableVie
             
         })
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-        
-    }
-    
 
     /*
     // MARK: - Navigation

@@ -15,11 +15,10 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     @IBOutlet weak var albumArtwork: UIImageView!
     @IBOutlet weak var songName: UILabel!
     @IBOutlet weak var albumName: UILabel!
-    @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var volumeControl: UISlider!
-    var ref:FIRDatabaseReference?
-
     @IBOutlet weak var artistName: UILabel!
+    @IBOutlet weak var playButton: UIButton!
+    
+    var ref:FIRDatabaseReference?
     
     var musicLibraryC = [Library]()
     
@@ -55,6 +54,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
             let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
             
             self.session = firstTimeSession
+            playButton.layer.cornerRadius = 24.0
            
             initializePlayer(authSession: session)
             
@@ -74,10 +74,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
             
             }
            // self.songsArr.reverse()
-            
         }
-        
-    
     }
         
         func initializePlayer(authSession:SPTSession){
@@ -97,13 +94,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
             
             }
         }
-    
-    
-    
-   
-    
- 
-    
+
     func getsongsarr(completion: @escaping ([String]) -> ())
     {
         var songs = [String]()
@@ -121,20 +112,10 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
                 print(song)
                 songs.append(song)
                 completion(songs)*/
-            
-            
+ 
         })
     }
     
-
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-        
-    }
- 
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String)
     {
         
@@ -187,10 +168,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
             self.albumArtwork.image = image
         }
     }
-        
-        
-   
-        
+    
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
         // after a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
         print("logged in")
@@ -199,22 +177,10 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
          print("playing!")
         }
         
-        
-        
-        
         })
-        
     }
-        
-    
-    
 
-    
-    
-   
-    
     @IBAction func playButtonAct(_ sender: Any) {
-        
         
        if isplaying
        {
@@ -227,30 +193,10 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
             self.player?.setIsPlaying(true, callback: nil)
             isplaying = true
             self.playButton.setTitle("Pause", for: UIControlState.normal)
-
         }
-       
-        
+  
     }
-    
-    @IBAction func volumeSlide(_ sender: Any) {
-        
-        let volumee = Double(volumeControl.value)
-        
-        self.player?.setVolume(volumee, callback: { (error) in
-            if (error != nil) {
-                print(error)
-            }
-            
-            
-            
-        })
-        
-        
-    }
-    
-    
-    
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
