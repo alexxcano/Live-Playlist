@@ -35,6 +35,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
     var status = false
     var isplaying = true
 
+    var currentParty = UserDefaults.standard.value(forKey: "currentParty")
     var songUri = [String]()
     
     func setup() {
@@ -74,6 +75,7 @@ class NowPlayingViewController: UIViewController, SPTAudioStreamingPlaybackDeleg
             
             }
            // self.songsArr.reverse()
+            
         }
     }
         

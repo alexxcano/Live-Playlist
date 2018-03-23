@@ -280,9 +280,6 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="Log In With Apple Music"/>
-                                <connections>
-                                    <segue destination="I3r-A2-2q3" kind="show" id="Rfg-zn-b0V"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-or-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0KO-T9-7kv">
                                 <rect key="frame" x="173.5" y="308" width="28" height="20"/>

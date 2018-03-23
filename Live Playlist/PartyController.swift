@@ -39,6 +39,7 @@ class PartyController: UIViewController, UITableViewDataSource, UITableViewDeleg
             
         })
         
+        
         hostPartyBttn.layer.cornerRadius = 24.0
         //joinPartyBttn.layer.cornerRadius = 24.0
         //addSongBttn.layer.cornerRadius = 24.0
